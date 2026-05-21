@@ -1,0 +1,6 @@
+@LifePetApi_HostAddress = http://localhost:5219
+
+GET {{LifePetApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

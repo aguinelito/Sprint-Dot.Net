@@ -68,7 +68,7 @@ Exemplo de configuração na FIAP:
 | Hostname      | `oracle.fiap.com.br`      |
 | Porta         | `1521`                    |
 | Service name  | `ORCL`                    |
-| Usuário       | RM da turma (ex.: `RM564857`) |
+| Usuário       | RMXXXXXX |
 
 Valide a conexão no SQL Developer antes de executar a API. O teste de conexão deve retornar *Success*.
 
@@ -259,6 +259,8 @@ dotnet ef database update
 
 Projeto acadêmico — FIAP, Advanced Business Development with .NET.
 
-#   S P R I N T 1 - 2 - d o t . n e t  
- #   S P R I N T 1 - 2 - d o t . n e t  
+#   S P R I N T 1 - 2 - d o t . n e t 
+ 
+ #   S P R I N T 1 - 2 - d o t . n e t 
+ 
  

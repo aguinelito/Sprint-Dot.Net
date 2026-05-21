@@ -1,4 +1,4 @@
--- Dados de teste para LifePet (rode no SQL Developer conectado como RM564857)
+-- Dados de teste para LifePet (rode no SQL Developer conectado com o RM cadastrado no banco de dados)
 -- Ordem: Tutor -> Pet -> demais tabelas
 
 INSERT INTO TUTORES (NOME, EMAIL, TELEFONE)

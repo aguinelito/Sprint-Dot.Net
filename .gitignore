@@ -4,3 +4,4 @@ obj/
 *.user
 *.suo
 appsettings.*.local.json
+appsettings.Development.json

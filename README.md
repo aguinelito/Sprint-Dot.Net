@@ -1,10 +1,10 @@
 <<<<<<< HEAD
 Integrantes do projeto:
 
-Aguinel Junior Bento da Silva - RM564857
-Felipe da Silva - RM563485
+Aguinel Junior - RM564857
+Felipe Garcia - RM563485
 Henrique Gonçalves - RM562086
-Leonardo Saavedra - RM562228
+Leonardo Saavedra - RM562229
 Vitor Mendes - RM565376
 
 # LifePet API

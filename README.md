@@ -8,7 +8,7 @@ Projeto academico da disciplina Advanced Business Development with .NET (FIAP).
 
 Codigo-fonte disponivel em:
 
-https://github.com/aguinelito/Sprint-Dot.Net.git
+[https://github.com/aguinelito/Sprint-Dot.Net.git](https://github.com/aguinelito/ProjetoAgrosphere.net)
 
 ## Integrantes
 
@@ -245,27 +245,6 @@ Para criar uma nova migration apos alterar entidades ou mapeamentos:
 ```bash
 dotnet ef migrations add NomeDaMigration
 dotnet ef database update
-```
-
-## Publicacao no GitHub
-
-Se o remoto ja estiver configurado, use:
-
-```bash
-git add .
-git commit -m "Atualiza projeto Agrosphere e README"
-git push origin main
-```
-
-Se ainda precisar criar um repositorio novo:
-
-```bash
-git init
-git branch -M main
-git remote add origin https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
-git add .
-git commit -m "Adiciona projeto Agrosphere"
-git push -u origin main
 ```
 
 ## Licenca

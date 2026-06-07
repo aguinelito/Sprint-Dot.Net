@@ -8,7 +8,7 @@ Projeto academico da disciplina Advanced Business Development with .NET (FIAP).
 
 Codigo-fonte disponivel em:
 
-[https://github.com/aguinelito/Sprint-Dot.Net.git](https://github.com/aguinelito/ProjetoAgrosphere.net)
+https://github.com/aguinelito/ProjetoAgrosphere.net
 
 ## Integrantes
 

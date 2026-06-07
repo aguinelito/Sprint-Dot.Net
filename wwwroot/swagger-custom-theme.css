@@ -1,0 +1,310 @@
+/* Agrosphere - Tema Agricola e Espacial */
+
+/* Cores principais */
+:root {
+    --agrosphere-green: #2d5016;
+    --agrosphere-dark-green: #1a3009;
+    --agrosphere-light-green: #4a7c3d;
+    --agrosphere-accent: #0066cc;
+    --agrosphere-sky-blue: #1e90ff;
+    --agrosphere-soil-brown: #8b6f47;
+    --agrosphere-text: #2c3e50;
+    --agrosphere-light-bg: #f5f7fa;
+}
+
+/* Background geral */
+.swagger-ui {
+    background: linear-gradient(135deg, var(--agrosphere-light-bg) 0%, #e8f3f8 100%);
+}
+
+/* Header - Navbar */
+.topbar {
+    background: linear-gradient(90deg, var(--agrosphere-dark-green) 0%, var(--agrosphere-green) 50%, var(--agrosphere-accent) 100%) !important;
+    border-bottom: 4px solid var(--agrosphere-sky-blue);
+    box-shadow: 0 4px 12px rgba(45, 80, 22, 0.2);
+}
+
+.topbar-title {
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 24px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Info sections */
+.info {
+    background: linear-gradient(135deg, rgba(45, 80, 22, 0.05), rgba(30, 144, 255, 0.05));
+    border: 2px solid var(--agrosphere-light-green);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.info .title {
+    color: var(--agrosphere-dark-green);
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.info .description {
+    color: var(--agrosphere-text);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+/* Botões principais */
+.btn {
+    background: linear-gradient(135deg, var(--agrosphere-green), var(--agrosphere-light-green));
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, var(--agrosphere-light-green), var(--agrosphere-green));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(45, 80, 22, 0.3);
+}
+
+.btn-execute {
+    background: linear-gradient(135deg, var(--agrosphere-accent), var(--agrosphere-sky-blue)) !important;
+}
+
+.btn-execute:hover {
+    background: linear-gradient(135deg, var(--agrosphere-sky-blue), var(--agrosphere-accent)) !important;
+    box-shadow: 0 4px 12px rgba(30, 144, 255, 0.4) !important;
+}
+
+/* Modelos e Schemas */
+.model {
+    background: white;
+    border-left: 4px solid var(--agrosphere-light-green);
+    border-radius: 4px;
+}
+
+.model-title {
+    background: linear-gradient(90deg, var(--agrosphere-green), var(--agrosphere-light-green));
+    color: white;
+    padding: 12px 15px;
+    font-weight: 700;
+    border-radius: 4px 4px 0 0;
+}
+
+/* Operações HTTP */
+.opblock {
+    border-left: 4px solid var(--agrosphere-green);
+    background: white;
+    border-radius: 6px;
+    margin: 10px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.opblock.opblock-get {
+    border-left-color: var(--agrosphere-accent);
+}
+
+.opblock.opblock-get .opblock-summary {
+    background: linear-gradient(90deg, rgba(0, 102, 204, 0.1), transparent);
+}
+
+.opblock.opblock-post {
+    border-left-color: var(--agrosphere-light-green);
+}
+
+.opblock.opblock-post .opblock-summary {
+    background: linear-gradient(90deg, rgba(45, 80, 22, 0.1), transparent);
+}
+
+.opblock.opblock-put {
+    border-left-color: var(--agrosphere-sky-blue);
+}
+
+.opblock.opblock-put .opblock-summary {
+    background: linear-gradient(90deg, rgba(30, 144, 255, 0.1), transparent);
+}
+
+.opblock.opblock-delete {
+    border-left-color: #e74c3c;
+}
+
+.opblock.opblock-delete .opblock-summary {
+    background: linear-gradient(90deg, rgba(231, 76, 60, 0.1), transparent);
+}
+
+/* Headers HTTP */
+.opblock-tag {
+    font-weight: 700;
+    color: var(--agrosphere-dark-green);
+    border-bottom: 2px solid var(--agrosphere-light-green);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* Badges de método HTTP */
+.opblock-summary-method {
+    background: linear-gradient(135deg, var(--agrosphere-green), var(--agrosphere-light-green));
+    color: white;
+    font-weight: 700;
+    border-radius: 4px;
+    padding: 4px 12px;
+}
+
+.opblock.opblock-get .opblock-summary-method {
+    background: var(--agrosphere-accent);
+}
+
+.opblock.opblock-post .opblock-summary-method {
+    background: var(--agrosphere-light-green);
+}
+
+.opblock.opblock-put .opblock-summary-method {
+    background: var(--agrosphere-sky-blue);
+}
+
+.opblock.opblock-delete .opblock-summary-method {
+    background: #e74c3c;
+}
+
+/* Links */
+a {
+    color: var(--agrosphere-accent);
+}
+
+a:hover {
+    color: var(--agrosphere-sky-blue);
+}
+
+/* Tabs */
+.tab li {
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab li.active {
+    border-bottom-color: var(--agrosphere-accent);
+}
+
+.tab li a {
+    color: var(--agrosphere-text);
+}
+
+.tab li.active a {
+    color: var(--agrosphere-accent);
+    font-weight: 700;
+}
+
+/* Inputs e Fields */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+    border: 2px solid var(--agrosphere-light-green) !important;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--agrosphere-accent) !important;
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.3) !important;
+    outline: none;
+}
+
+/* Resposta bem-sucedida */
+.response-col_status {
+    color: #27ae60;
+    font-weight: 700;
+}
+
+/* Status 2xx */
+.response-col_status.status-2xx {
+    color: var(--agrosphere-light-green);
+}
+
+/* Status 4xx */
+.response-col_status.status-4xx {
+    color: #e67e22;
+}
+
+/* Status 5xx */
+.response-col_status.status-5xx {
+    color: #e74c3c;
+}
+
+/* Tooltip */
+.tooltip {
+    background: var(--agrosphere-dark-green);
+    color: white;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+/* Scrollbar customizado */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--agrosphere-light-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--agrosphere-light-green);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--agrosphere-green);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .swagger-ui {
+        background: linear-gradient(135deg, var(--agrosphere-light-bg) 0%, #e8f3f8 100%);
+    }
+
+    .topbar {
+        padding: 10px;
+    }
+
+    .topbar-title {
+        font-size: 18px;
+    }
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.opblock {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Modelo card hover */
+.model-box {
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+.model-box:hover {
+    box-shadow: 0 8px 24px rgba(45, 80, 22, 0.15);
+    transform: translateY(-2px);
+}

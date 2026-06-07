@@ -1,4 +1,4 @@
-using LifePetApi.Data;
+using Agrosphere.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +12,9 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new()
     {
-        Title = "LifePet API",
+        Title = "Agrosphere",
         Version = "v1",
-        Description = "Agenda inteligente de cuidados para pets — vacinas, consultas, medicamentos e histórico clínico."
+        Description = "Tecnologia inspirada em monitoramento espacial aplicada ao agronegócio brasileiro."
     });
 });
 
@@ -25,8 +25,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "LifePet API v1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Agrosphere v1");
         options.RoutePrefix = "swagger";
+        options.InjectStylesheet("/swagger-custom-theme.css");
     });
 }
 else

@@ -1,24 +1,27 @@
-using LifePetApi.Models;
+using Agrosphere.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LifePetApi.Data;
+namespace Agrosphere.Data;
 
 public class LifePetDbContext : DbContext
 {
     public LifePetDbContext(DbContextOptions<LifePetDbContext> options) : base(options) { }
 
-    public DbSet<Tutor> Tutores => Set<Tutor>();
-    public DbSet<Pet> Pets => Set<Pet>();
-    public DbSet<Vacina> Vacinas => Set<Vacina>();
-    public DbSet<Consulta> Consultas => Set<Consulta>();
-    public DbSet<Medicamento> Medicamentos => Set<Medicamento>();
-    public DbSet<Historico> Historicos => Set<Historico>();
+    // Novos DbSets para Sistema de Monitoramento de Fazenda
+    public DbSet<Usuario> Usuarios => Set<Usuario>();
+    public DbSet<Fazenda> Fazendas => Set<Fazenda>();
+    public DbSet<Sensor> Sensores => Set<Sensor>();
+    public DbSet<Leitura> Leituras => Set<Leitura>();
+    public DbSet<AlertaClimatico> AlertasClimaticos => Set<AlertaClimatico>();
+    public DbSet<Previsao> Previsoes => Set<Previsao>();
+    public DbSet<HistoricoLeitura> HistoricoLeituras => Set<HistoricoLeitura>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Tutor>(e =>
+        // Configurações para o Sistema de Monitoramento de Fazenda
+        modelBuilder.Entity<Usuario>(e =>
         {
-            e.ToTable("TUTORES");
+            e.ToTable("USUARIOS_MONITORAMENTO");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).HasColumnName("ID").UseIdentityColumn();
             e.Property(x => x.Nome).HasColumnName("NOME").HasMaxLength(100).IsRequired();
@@ -26,67 +29,79 @@ public class LifePetDbContext : DbContext
             e.Property(x => x.Telefone).HasColumnName("TELEFONE").HasMaxLength(20);
         });
 
-        modelBuilder.Entity<Pet>(e =>
+        modelBuilder.Entity<Fazenda>(e =>
         {
-            e.ToTable("PETS");
+            e.ToTable("FAZENDAS_MONITORAMENTO");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).HasColumnName("ID").UseIdentityColumn();
             e.Property(x => x.Nome).HasColumnName("NOME").HasMaxLength(100).IsRequired();
-            e.Property(x => x.Especie).HasColumnName("ESPECIE").HasMaxLength(50);
-            e.Property(x => x.Raca).HasColumnName("RACA").HasMaxLength(50);
-            e.Property(x => x.DataNascimento).HasColumnName("DATA_NASCIMENTO");
-            e.Property(x => x.TutorId).HasColumnName("TUTOR_ID");
-            e.HasOne(x => x.Tutor).WithMany(t => t.Pets).HasForeignKey(x => x.TutorId);
+            e.Property(x => x.Localizacao).HasColumnName("LOCALIZACAO").HasMaxLength(200);
+            e.Property(x => x.Descricao).HasColumnName("DESCRICAO").HasMaxLength(500);
+            e.Property(x => x.UsuarioId).HasColumnName("USUARIO_ID");
+            e.HasOne(x => x.Usuario).WithMany(u => u.Fazendas).HasForeignKey(x => x.UsuarioId);
         });
 
-        modelBuilder.Entity<Vacina>(e =>
+        modelBuilder.Entity<Sensor>(e =>
         {
-            e.ToTable("VACINAS");
+            e.ToTable("SENSORES_MONITORAMENTO");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).HasColumnName("ID").UseIdentityColumn();
             e.Property(x => x.Nome).HasColumnName("NOME").HasMaxLength(100).IsRequired();
-            e.Property(x => x.DataAplicacao).HasColumnName("DATA_APLICACAO");
-            e.Property(x => x.DataProximaDose).HasColumnName("DATA_PROXIMA_DOSE");
-            e.Property(x => x.PetId).HasColumnName("PET_ID");
-            e.HasOne(x => x.Pet).WithMany(p => p.Vacinas).HasForeignKey(x => x.PetId);
+            e.Property(x => x.Tipo).HasColumnName("TIPO").HasMaxLength(50).IsRequired();
+            e.Property(x => x.Localizacao).HasColumnName("LOCALIZACAO").HasMaxLength(200);
+            e.Property(x => x.DataInstalacao).HasColumnName("DATA_INSTALACAO");
+            e.Property(x => x.FazendaId).HasColumnName("FAZENDA_ID");
+            e.HasOne(x => x.Fazenda).WithMany(f => f.Sensores).HasForeignKey(x => x.FazendaId);
         });
 
-        modelBuilder.Entity<Consulta>(e =>
+        modelBuilder.Entity<Leitura>(e =>
         {
-            e.ToTable("CONSULTAS");
+            e.ToTable("LEITURAS_SENSORES");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).HasColumnName("ID").UseIdentityColumn();
             e.Property(x => x.DataHora).HasColumnName("DATA_HORA");
-            e.Property(x => x.Veterinario).HasColumnName("VETERINARIO").HasMaxLength(100);
-            e.Property(x => x.Motivo).HasColumnName("MOTIVO").HasMaxLength(200);
-            e.Property(x => x.PetId).HasColumnName("PET_ID");
-            e.HasOne(x => x.Pet).WithMany(p => p.Consultas).HasForeignKey(x => x.PetId);
+            e.Property(x => x.Valor).HasColumnName("VALOR").HasPrecision(10, 2);
+            e.Property(x => x.Unidade).HasColumnName("UNIDADE").HasMaxLength(10);
+            e.Property(x => x.SensorId).HasColumnName("SENSOR_ID");
+            e.HasOne(x => x.Sensor).WithMany(s => s.Leituras).HasForeignKey(x => x.SensorId);
         });
 
-        modelBuilder.Entity<Medicamento>(e =>
+        modelBuilder.Entity<AlertaClimatico>(e =>
         {
-            e.ToTable("MEDICAMENTOS");
+            e.ToTable("ALERTAS_CLIMATICOS_SENSORES");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).HasColumnName("ID").UseIdentityColumn();
-            e.Property(x => x.Nome).HasColumnName("NOME").HasMaxLength(100).IsRequired();
-            e.Property(x => x.Dosagem).HasColumnName("DOSAGEM").HasMaxLength(50);
-            e.Property(x => x.Frequencia).HasColumnName("FREQUENCIA").HasMaxLength(50);
-            e.Property(x => x.DataInicio).HasColumnName("DATA_INICIO");
-            e.Property(x => x.DataFim).HasColumnName("DATA_FIM");
-            e.Property(x => x.PetId).HasColumnName("PET_ID");
-            e.HasOne(x => x.Pet).WithMany(p => p.Medicamentos).HasForeignKey(x => x.PetId);
+            e.Property(x => x.Descricao).HasColumnName("DESCRICAO").HasMaxLength(500);
+            e.Property(x => x.Tipo).HasColumnName("TIPO").HasMaxLength(50);
+            e.Property(x => x.DataAlerta).HasColumnName("DATA_ALERTA");
+            e.Property(x => x.DataResolucao).HasColumnName("DATA_RESOLUCAO");
+            e.Property(x => x.SensorId).HasColumnName("SENSOR_ID");
+            e.HasOne(x => x.Sensor).WithMany(s => s.AlertasClimaticos).HasForeignKey(x => x.SensorId);
         });
 
-        modelBuilder.Entity<Historico>(e =>
+        modelBuilder.Entity<Previsao>(e =>
         {
-            e.ToTable("HISTORICOS");
+            e.ToTable("PREVISOES_SENSORES");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).HasColumnName("ID").UseIdentityColumn();
+            e.Property(x => x.Descricao).HasColumnName("DESCRICAO").HasMaxLength(500);
+            e.Property(x => x.Recomendacao).HasColumnName("RECOMENDACAO").HasMaxLength(500);
+            e.Property(x => x.DataPrevisao).HasColumnName("DATA_PREVISAO");
+            e.Property(x => x.DataVigenciaAte).HasColumnName("DATA_VIGENCIA_ATE");
+            e.Property(x => x.SensorId).HasColumnName("SENSOR_ID");
+            e.HasOne(x => x.Sensor).WithMany(s => s.Previsoes).HasForeignKey(x => x.SensorId);
+        });
+
+        modelBuilder.Entity<HistoricoLeitura>(e =>
+        {
+            e.ToTable("HISTORICO_LEITURAS_SENSORES");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).HasColumnName("ID").UseIdentityColumn();
             e.Property(x => x.Data).HasColumnName("DATA");
             e.Property(x => x.Descricao).HasColumnName("DESCRICAO").HasMaxLength(500);
             e.Property(x => x.Tipo).HasColumnName("TIPO").HasMaxLength(50);
-            e.Property(x => x.PetId).HasColumnName("PET_ID");
-            e.HasOne(x => x.Pet).WithMany(p => p.Historicos).HasForeignKey(x => x.PetId);
+            e.Property(x => x.SensorId).HasColumnName("SENSOR_ID");
+            e.HasOne(x => x.Sensor).WithMany(s => s.HistoricoLeituras).HasForeignKey(x => x.SensorId);
         });
     }
 }

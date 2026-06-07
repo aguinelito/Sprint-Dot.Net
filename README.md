@@ -1,20 +1,22 @@
-Integrantes do projeto:
+# Agrosphere
 
-Aguinel Junior Bento da Silva - RM564857
-Felipe da Silva - RM563485
-Henrique Gonçalves - RM562086
-Leonardo Saavedra - RM562228
-Vitor Mendes - RM565376
+API REST desenvolvida em ASP.NET Core para monitoramento inteligente de fazendas. O projeto centraliza usuarios, fazendas, sensores IoT, leituras, alertas climaticos, previsoes e historico de eventos, usando Entity Framework Core com Oracle Database.
 
-# LifePet API
+Projeto academico da disciplina Advanced Business Development with .NET (FIAP).
 
-**Fluxo contínuo de cuidados para pets**
+## Repositorio
 
-API REST desenvolvida em ASP.NET Core para apoiar o controle de saúde e rotina de animais de estimação. O sistema centraliza informações de tutores, pets, vacinas, consultas, medicamentos e histórico clínico, com rotas adicionais para consultas de alertas (vacinas em atraso, medicamentos ativos, consultas futuras).
+Codigo-fonte disponivel em:
 
-Projeto da disciplina **Advanced Business Development with .NET** (FIAP) — Sprint 1 e 2.
+https://github.com/aguinelito/Sprint-Dot.Net.git
 
----
+## Integrantes
+
+- Aguinel Junior Bento da Silva - RM564857
+- Felipe da Silva - RM563485
+- Henrique Goncalves - RM562086
+- Leonardo Saavedra - RM562228
+- Vitor Mendes - RM565376
 
 ## Tecnologias
 
@@ -22,245 +24,250 @@ Projeto da disciplina **Advanced Business Development with .NET** (FIAP) — Spr
 - ASP.NET Core Web API
 - Entity Framework Core
 - Oracle Database
-- Swagger (OpenAPI)
-
----
+- Swagger / OpenAPI
 
 ## Modelo de dados
 
-| Entidade    | Descrição                                      |
-|-------------|------------------------------------------------|
-| Tutor       | Responsável legal pelo animal                  |
-| Pet         | Animal de estimação vinculado a um tutor       |
-| Vacina      | Registro de vacinação e próxima dose           |
-| Consulta    | Agendamento e atendimento veterinário          |
-| Medicamento | Tratamento medicamentoso em curso              |
-| Histórico   | Registros clínicos (exames, observações, etc.) |
+| Entidade | Descricao | Tabela |
+| --- | --- | --- |
+| Usuario | Proprietario ou gerente das fazendas monitoradas | USUARIOS_MONITORAMENTO |
+| Fazenda | Propriedade rural vinculada a um usuario | FAZENDAS_MONITORAMENTO |
+| Sensor | Dispositivo IoT instalado em uma fazenda | SENSORES_MONITORAMENTO |
+| Leitura | Medicao capturada por um sensor | LEITURAS_SENSORES |
+| AlertaClimatico | Alerta gerado a partir de condicoes criticas | ALERTAS_CLIMATICOS_SENSORES |
+| Previsao | Previsao e recomendacao para apoio a decisao | PREVISOES_SENSORES |
+| HistoricoLeitura | Registro historico de leituras, manutencoes e eventos | HISTORICO_LEITURAS_SENSORES |
 
-O pet depende de um tutor; vacinas, consultas, medicamentos e históricos dependem de um pet.
+Relacionamentos principais:
 
----
-
-## Pré-requisitos
-
-- [.NET SDK 10](https://dotnet.microsoft.com/download)
-- Acesso a uma instância Oracle (ambiente FIAP ou Oracle XE local)
-- [SQL Developer](https://www.oracle.com/database/sqldeveloper/) ou ferramenta equivalente (recomendado)
-- [Oracle Instant Client](https://www.oracle.com/database/technologies/instant-client.html), se exigido pelo ambiente
-
----
-
-## Configuração do banco de dados
-### Conexão Oracle
-
-Informe a connection string em `appsettings.json` e `appsettings.Development.json` (mantenha os dois arquivos alinhados):
-
-```json
-"OracleConnection": "User Id=RMXXXXXX;Password=080499;Data Source=oracle.fiap.com.br:1521/ORCL"
+```text
+Usuario 1:N Fazenda
+Fazenda 1:N Sensor
+Sensor 1:N Leitura
+Sensor 1:N AlertaClimatico
+Sensor 1:N Previsao
+Sensor 1:N HistoricoLeitura
 ```
 
-Substitua usuário, senha, host, porta e service name conforme o ambiente disponibilizado. **Não versione senhas reais no repositório.**
+## Pre-requisitos
 
-Exemplo de configuração na FIAP:
+- .NET SDK 10
+- Acesso a uma instancia Oracle
+- Entity Framework Core Tools
+- SQL Developer ou ferramenta equivalente
 
-| Parâmetro     | Valor típico              |
-|---------------|---------------------------|
-| Hostname      | `oracle.fiap.com.br`      |
-| Porta         | `1521`                    |
-| Service name  | `ORCL`                    |
-| Usuário       | RMXXXXXX |
+Instalacao do EF Core Tools, caso ainda nao esteja disponivel:
 
-Valide a conexão no SQL Developer antes de executar a API. O teste de conexão deve retornar *Success*.
+```bash
+dotnet tool install --global dotnet-ef
+```
 
-### Migrations (estrutura das tabelas)
+## Configuracao
+
+Configure a connection string em `appsettings.json` e, se usar ambiente local de desenvolvimento, tambem em `appsettings.Development.json`:
+
+```json
+{
+  "ConnectionStrings": {
+    "OracleConnection": "User Id=RMXXXXXX;Password=SUA_SENHA;Data Source=oracle.fiap.com.br:1521/ORCL"
+  }
+}
+```
+
+Nao versione senhas reais no repositorio. Para entrega academica, mantenha placeholders como `RMXXXXXX` e `SUA_SENHA`.
+
+## Como executar
 
 Na raiz do projeto:
 
 ```bash
-dotnet ef database update
-```
-
-Esse comando cria as tabelas `TUTORES`, `PETS`, `VACINAS`, `CONSULTAS`, `MEDICAMENTOS` e `HISTORICOS` no schema do usuário conectado.
-
-### Dados iniciais (opcional)
-
-Para popular o banco com registros de exemplo, execute o script `Scripts/02-dados-teste.sql` no SQL Developer. Também é possível inserir dados pela interface Swagger, conforme a seção [Exemplos de requisição](#exemplos-de-requisição).
-
-O script `Scripts/01-create-schema.sql` destina-se apenas a instalações locais com usuário dedicado (`LIFEPET`); no ambiente FIAP o usuário do aluno já é provisionado.
-
----
-
-## Execução da API
-
-```bash
 dotnet restore
+dotnet ef database update
 dotnet run
 ```
 
-Em ambiente de desenvolvimento, a documentação interativa fica disponível em:
+Em desenvolvimento, a documentacao interativa fica disponivel em:
 
-**http://localhost:5219/swagger**
+```text
+http://localhost:5219/swagger
+```
 
 A porta pode variar conforme `Properties/launchSettings.json`.
 
----
-
-## Documentação da API
-
-A especificação OpenAPI é exposta via Swagger. Todos os endpoints podem ser testados diretamente na interface (*Try it out*), o que facilita a validação dos códigos de resposta HTTP exigidos na sprint.
-
-### Códigos de resposta utilizados
-
-| Código | Uso habitual                          |
-|--------|---------------------------------------|
-| 200    | Consulta realizada com sucesso        |
-| 201    | Recurso criado                        |
-| 204    | Atualização ou exclusão concluída     |
-| 400    | Dados inválidos ou regra de negócio   |
-| 404    | Recurso não encontrado                |
-
----
-
 ## Endpoints
 
-As rotas seguem o padrão REST: recursos no plural, identificadores na URL e verbos HTTP semânticos.
+### Usuarios - `/api/usuarios`
 
-### Tutores — `/api/tutores`
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/` | Lista usuarios |
+| GET | `/{id}` | Busca usuario por id |
+| POST | `/` | Cria usuario |
+| PUT | `/{id}` | Atualiza usuario |
+| DELETE | `/{id}` | Remove usuario |
 
-| Método | Rota                 | Descrição                    |
-|--------|----------------------|------------------------------|
-| GET    | `/`                  | Lista todos os tutores       |
-| GET    | `/{id}`              | Obtém tutor por identificador |
-| GET    | `/email/{email}`     | Busca tutor por e-mail       |
-| GET    | `/{tutorId}/pets`    | Lista pets de um tutor       |
-| POST   | `/`                  | Cadastra um tutor            |
-| PUT    | `/{id}`              | Atualiza um tutor            |
-| DELETE | `/{id}`              | Remove um tutor              |
+### Fazendas - `/api/fazendas`
 
-### Pets — `/api/pets`
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/` | Lista fazendas |
+| GET | `/{id}` | Busca fazenda por id |
+| GET | `/usuario/{usuarioId}` | Lista fazendas de um usuario |
+| POST | `/` | Cria fazenda |
+| PUT | `/{id}` | Atualiza fazenda |
+| DELETE | `/{id}` | Remove fazenda |
 
-| Método | Rota                  | Descrição                    |
-|--------|-----------------------|------------------------------|
-| GET    | `/`                   | Lista todos os pets          |
-| GET    | `/{id}`               | Obtém pet por identificador  |
-| GET    | `/especie/{especie}`  | Filtra por espécie           |
-| GET    | `/tutor/{tutorId}`    | Lista pets de um tutor       |
-| POST   | `/`                   | Cadastra um pet              |
-| PUT    | `/{id}`               | Atualiza um pet              |
-| DELETE | `/{id}`               | Remove um pet                |
+### Sensores - `/api/sensores`
 
-### Vacinas — `/api/vacinas`
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/` | Lista sensores |
+| GET | `/{id}` | Busca sensor por id |
+| GET | `/fazenda/{fazendaId}` | Lista sensores de uma fazenda |
+| POST | `/` | Cria sensor |
+| PUT | `/{id}` | Atualiza sensor |
+| DELETE | `/{id}` | Remove sensor |
 
-| Método | Rota             | Descrição                         |
-|--------|------------------|-----------------------------------|
-| GET    | `/`              | Lista todas as vacinas            |
-| GET    | `/{id}`          | Obtém vacina por identificador    |
-| GET    | `/pet/{petId}`   | Lista vacinas de um pet           |
-| GET    | `/atrasadas`     | Vacinas com dose em atraso        |
-| POST   | `/`              | Registra uma vacina               |
-| PUT    | `/{id}`          | Atualiza um registro              |
-| DELETE | `/{id}`          | Remove um registro                |
+### Leituras - `/api/leituras`
 
-### Consultas — `/api/consultas`
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/` | Lista leituras |
+| GET | `/{id}` | Busca leitura por id |
+| GET | `/sensor/{sensorId}` | Lista leituras de um sensor |
+| GET | `/sensor/{sensorId}/ultimas/{quantidade}` | Lista as ultimas leituras de um sensor |
+| POST | `/` | Registra leitura |
+| PUT | `/{id}` | Atualiza leitura |
+| DELETE | `/{id}` | Remove leitura |
 
-| Método | Rota             | Descrição                         |
-|--------|------------------|-----------------------------------|
-| GET    | `/`              | Lista todas as consultas          |
-| GET    | `/{id}`          | Obtém consulta por identificador  |
-| GET    | `/pet/{petId}`   | Lista consultas de um pet         |
-| GET    | `/futuras`       | Consultas com data futura         |
-| POST   | `/`              | Agenda uma consulta               |
-| PUT    | `/{id}`          | Atualiza um agendamento           |
-| DELETE | `/{id}`          | Remove um agendamento             |
+### Alertas climaticos - `/api/alertasClimaticos`
 
-### Medicamentos — `/api/medicamentos`
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/` | Lista alertas ativos |
+| GET | `/{id}` | Busca alerta por id |
+| GET | `/sensor/{sensorId}` | Lista alertas de um sensor |
+| GET | `/sensor/{sensorId}/ativos` | Lista alertas ativos de um sensor |
+| POST | `/` | Cria alerta |
+| PUT | `/{id}` | Atualiza alerta |
+| PUT | `/{id}/resolver` | Marca alerta como resolvido |
+| DELETE | `/{id}` | Remove alerta |
 
-| Método | Rota             | Descrição                         |
-|--------|------------------|-----------------------------------|
-| GET    | `/`              | Lista todos os medicamentos       |
-| GET    | `/{id}`          | Obtém medicamento por identificador |
-| GET    | `/pet/{petId}`   | Lista medicamentos de um pet      |
-| GET    | `/ativos`        | Tratamentos em andamento          |
-| POST   | `/`              | Registra um medicamento           |
-| PUT    | `/{id}`          | Atualiza um registro              |
-| DELETE | `/{id}`          | Remove um registro                |
+### Previsoes - `/api/previsoes`
 
-### Históricos — `/api/historicos`
+| Metodo | Rota | Descricao |
+| --- | --- | --- |
+| GET | `/` | Lista previsoes |
+| GET | `/{id}` | Busca previsao por id |
+| GET | `/sensor/{sensorId}` | Lista previsoes de um sensor |
+| GET | `/sensor/{sensorId}/vigentes` | Lista previsoes dentro da vigencia |
+| POST | `/` | Cria previsao |
+| PUT | `/{id}` | Atualiza previsao |
+| DELETE | `/{id}` | Remove previsao |
 
-| Método | Rota             | Descrição                         |
-|--------|------------------|-----------------------------------|
-| GET    | `/`              | Lista todo o histórico            |
-| GET    | `/{id}`          | Obtém registro por identificador  |
-| GET    | `/pet/{petId}`   | Histórico de um pet               |
-| GET    | `/tipo/{tipo}`   | Filtra por tipo de registro       |
-| POST   | `/`              | Inclui um registro                |
-| PUT    | `/{id}`          | Atualiza um registro              |
-| DELETE | `/{id}`          | Remove um registro                |
+## Exemplos de requisicao
 
----
+### Criar usuario
 
-## Exemplos de requisição
+```http
+POST /api/usuarios
+Content-Type: application/json
 
-Cadastre primeiro um tutor; em seguida um pet referenciando o `tutorId` retornado.
-
-**Tutor** — `POST /api/tutores`
-
-```json
 {
-  "nome": "Maria Silva",
-  "email": "maria@email.com",
+  "nome": "Joao Silva",
+  "email": "joao@fazenda.com",
   "telefone": "11999999999"
 }
 ```
 
-**Pet** — `POST /api/pets`
+### Criar fazenda
 
-```json
+```http
+POST /api/fazendas
+Content-Type: application/json
+
 {
-  "nome": "Thor",
-  "especie": "Cão",
-  "raca": "Labrador",
-  "dataNascimento": "2020-05-10T00:00:00",
-  "tutorId": 1
+  "nome": "Fazenda Esperanca",
+  "localizacao": "Goias - Brasil",
+  "descricao": "Producao de graos e soja",
+  "usuarioId": 1
 }
 ```
 
-Demais recursos seguem a mesma lógica, utilizando o `petId` do animal cadastrado.
+### Criar sensor
 
----
+```http
+POST /api/sensores
+Content-Type: application/json
 
-## Estrutura do repositório
-
-```
-LifePetApi/
-├── Controllers/       Endpoints REST por entidade
-├── Data/              DbContext e configuração EF Core
-├── Models/            Classes de domínio
-├── Migrations/        Evolução do schema no Oracle
-├── Scripts/           Scripts SQL auxiliares
-├── Program.cs         Configuração da aplicação e Swagger
-└── appsettings.json   Connection string e parâmetros
+{
+  "nome": "Sensor Temperatura - Campo Norte",
+  "tipo": "TEMPERATURA",
+  "localizacao": "Campo Norte",
+  "dataInstalacao": "2026-06-07T00:00:00",
+  "fazendaId": 1
+}
 ```
 
----
+### Registrar leitura
+
+```http
+POST /api/leituras
+Content-Type: application/json
+
+{
+  "dataHora": "2026-06-07T14:30:00",
+  "valor": 28.5,
+  "unidade": "C",
+  "sensorId": 1
+}
+```
+
+## Estrutura do projeto
+
+```text
+Agrosphere/
+|-- Controllers/       Endpoints REST
+|-- Data/              DbContext e mapeamento EF Core
+|-- Models/            Entidades de dominio
+|-- Migrations/        Migrations do banco Oracle
+|-- Scripts/           Scripts SQL auxiliares
+|-- wwwroot/           Customizacoes estaticas do Swagger
+|-- Program.cs         Configuracao da aplicacao
+|-- Agrosphere.csproj  Projeto .NET
+`-- README.md          Documentacao do projeto
+```
 
 ## Migrations
 
-Após alterar as entidades em `Models/` ou o mapeamento em `Data/LifePetDbContext.cs`:
+Para criar uma nova migration apos alterar entidades ou mapeamentos:
 
 ```bash
-dotnet ef migrations add DescricaoDaAlteracao
+dotnet ef migrations add NomeDaMigration
 dotnet ef database update
 ```
 
----
+## Publicacao no GitHub
 
-## Autoria
+Se o remoto ja estiver configurado, use:
 
-Projeto acadêmico — FIAP, Advanced Business Development with .NET.
+```bash
+git add .
+git commit -m "Atualiza projeto Agrosphere e README"
+git push origin main
+```
 
-#   S P R I N T 1 - 2 - d o t . n e t 
- 
- #   S P R I N T 1 - 2 - d o t . n e t 
- 
- 
+Se ainda precisar criar um repositorio novo:
+
+```bash
+git init
+git branch -M main
+git remote add origin https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
+git add .
+git commit -m "Adiciona projeto Agrosphere"
+git push -u origin main
+```
+
+## Licenca
+
+Projeto desenvolvido para fins educacionais.

@@ -1,0 +1,25 @@
+@Agrosphere_HostAddress = http://localhost:5219
+
+GET {{Agrosphere_HostAddress}}/api/usuarios
+Accept: application/json
+
+###
+
+POST {{Agrosphere_HostAddress}}/api/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Joao Silva",
+  "email": "joao@fazenda.com",
+  "telefone": "11999999999"
+}
+
+###
+
+GET {{Agrosphere_HostAddress}}/api/fazendas
+Accept: application/json
+
+###
+
+GET {{Agrosphere_HostAddress}}/api/sensores
+Accept: application/json
